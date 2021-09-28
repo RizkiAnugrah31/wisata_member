@@ -5,7 +5,7 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class CredentialsModel extends Model
+class CredentialsModels extends Model
 {
     //    Soft Delete
     use softDeletes;
