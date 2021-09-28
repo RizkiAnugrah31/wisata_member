@@ -11,7 +11,7 @@ class EmployeeController extends Controller
     public function index(Request $request)
     {
         // dd($request->all());
-//        Get all data Menu from database
+        //        Get all data Menu from database
         $data = EmployeeModel::paginate($request->limit);
         return $data;
     }
