@@ -26,7 +26,9 @@ class EmployeeModel extends Model
         "employee_password",
         "employee_email",
         "employee_status",
-        "employee_image"
+        "employee_image",
+        "created_by",
+        "update_by"
     ];
 
     public $incrementing=false;
