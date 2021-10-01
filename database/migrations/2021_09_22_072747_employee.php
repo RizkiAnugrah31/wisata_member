@@ -15,7 +15,7 @@ class Employee extends Migration
     {
         Schema::create('employee', function(Blueprint $table){
             $table->uuid("employee_id");
-            $table->string("user_roles_id");
+            $table->uuid("user_roles_id");
             $table->string("employee_firstname");
             $table->string("employee_middlename");
             $table->string("employee_lastname");

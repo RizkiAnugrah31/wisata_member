@@ -5,28 +5,21 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class EmployeeModel extends Model
+class UserRolesModel extends Model
 {
     //    Soft Delete
     use softDeletes;
 
 //    Nama Table
-    protected $table = "employee";
+    protected $table = "user_roles";
 
 //    Nama Primary Key
-    protected $primaryKey = "employee_id";
+    protected $primaryKey = "user_roles_id";
 
 //    Field yang bisa di isi
     protected $fillable = [
-        "user_roles_id",
-        "employee_firstname",
-        "employee_middlename",
-        "employee_lastname",
-        "employee_username",
-        "employee_password",
-        "employee_email",
-        "employee_status",
-        "employee_image"
+        "user_roles_name",
+        "user_roles_status"
     ];
 
     public $increamenting=false;
