@@ -22,7 +22,7 @@ class UserRolesModel extends Model
         "user_roles_status"
     ];
 
-    public $increamenting=false;
+    public $incrementing=false;
     
 //  Field yang di sembunyikan
     protected $hidden = [

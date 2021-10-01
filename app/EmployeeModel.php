@@ -29,7 +29,7 @@ class EmployeeModel extends Model
         "employee_image"
     ];
 
-    public $increamenting=false;
+    public $incrementing=false;
     
 //  Field yang di sembunyikan
     protected $hidden = [

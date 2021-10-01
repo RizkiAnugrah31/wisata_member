@@ -44,6 +44,7 @@ class EmployeeController extends Controller
     {
 //        Get All data from request
         $data = $request->all();
+        // dd($id);
 //        query update
         $update = EmployeeModel::where('employee_id',$id)->update($data);
 //        check if update success or not
