@@ -34,11 +34,14 @@ class EmployeeController extends Controller
 //        query create
         $create = EmployeeModel::insert($data);
 //        check if create success or not
-        if ($create) {
-            return "success";
-        } else {
-            return "false";
-        }
+        // $data = $response->getBody();
+        // if ($create) {
+        //     return "success";
+        // } else {
+        //     return "false";
+        // }
+        return $data;
+        
     }
     public function update(Request $request, $id)
     {
@@ -49,11 +52,12 @@ class EmployeeController extends Controller
         $update = EmployeeModel::where('employee_id',$id)->update($data);
 //        check if update success or not
         // dd($update);
-        if ($update) {
-            return "success";
-        } else {
-            return "false";
-        }
+        // if ($update) {
+        //     return "success";
+        // } else {
+        //     return "false";
+        // }
+        return $data;
     }
     public function delete($id)
     {
@@ -65,5 +69,11 @@ class EmployeeController extends Controller
         } else {
             return "false";
         }
+    }
+
+    public function login(Request $request)
+    {
+        $login = EmployeeModel::insert($data);
+        return $data;
     }
 }

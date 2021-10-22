@@ -26,3 +26,7 @@ $router->get('/UserRoles/detail/{id}','Cms\UserRolesController@detail');
 $router->post('/UserRoles/store','Cms\UserRolesController@store');
 $router->put('/UserRoles/update/{id}','Cms\UserRolesController@update');
 $router->delete('/UserRoles/delete/{id}','Cms\UserRolesController@delete');
+
+$router->get('/Employee/show/{id}','Cms\UserController@show');
+$router->post('/Employee/register', 'Cms\AuthController@register');
+$router->post('/Employee/login', 'Cms\AuthController@login');
