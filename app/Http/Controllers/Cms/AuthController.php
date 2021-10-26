@@ -9,7 +9,6 @@ use App\EmployeeModel;
 use Firebase\JWT\JWT;
 use Illuminate\Validation\Validator;
 
-
 class AuthController extends Controller
 {
     public function login (Request $request)
@@ -22,7 +21,7 @@ class AuthController extends Controller
         $EmployeeModel = EmployeeModel::where('employee_email', $validated['employee_email'])->first();
         if (!Hash::make($validated['employee_password'], $EmployeeModel->employee_password)) {
             return abort (401, "email or password not valid");
-            return response()->json();
+            
         }
         $payload = [
             'iat' => intval(microtime(true)),
