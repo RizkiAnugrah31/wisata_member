@@ -11,10 +11,10 @@ class CredentialsModel extends Model
     use softDeletes;
 
 //    Nama Table
-    protected $table = "employee";
+    protected $table = "credential";
 
 //    Nama Primary Key
-    protected $primaryKey = "employee_id";
+    protected $primaryKey = "credential_id";
 
 //    Field yang bisa di isi
     protected $fillable = [

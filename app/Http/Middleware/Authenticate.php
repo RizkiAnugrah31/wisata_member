@@ -36,9 +36,25 @@ class Authenticate
     public function handle($request, Closure $next, $guard = null)
     {
         if ($this->auth->guard($guard)->guest()) {
-            return response('Unauthorized.', 401);
+            if ($request->has('secret_key')){
+                $secret_key = $request->input('secret_key');
+                $secret_key = CredentialModel::where('secret_key', $secret_key)->first();
+                if($secret_key == null) {
+                    $response['success'] = false;
+                    $response['message'] = 'Permission not Allowed';
+
+                    return response($response) -> json();
+                }
+            }else{
+                $response['success'] = true;
+                $response['message'] = 'Login please!';
+
+                return response($response) -> json();
+            }
+            
+            
         }
 
-        return $next($request);
+        
     }
 }
