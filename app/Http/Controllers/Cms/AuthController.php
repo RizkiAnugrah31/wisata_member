@@ -13,35 +13,32 @@ class AuthController extends Controller
 {
     public function login (Request $request)
     {
+        // dd($request->all());
         $this->validate($request, [
-            'employee_email' => 'required|email',
+            'employee_email' => 'required|employee_email',
             'employee_password' => 'required'
         ]);
          
         $employee_email = $request->input('employee_email');
         $employee_password = $request->input('employee_password');
         $hashPassword = Hash::make($employee_password);
+        $EmployeeModel = EmployeeModel::where("employee_email", $request->employee_email)->first();
 
-        $EmployeeModel = EmployeeModel::where("employee_email", $request->email)->first();
-
-        return response()->json();
         $payload = [
             'iat' => intval(microtime(true)),
             'exp' => intval(microtime(true)) + (60 * 60 * 1000),
             'uid' => $EmployeeModel->employee_id
         ];
-
-        if(!empty($EmployeeModel)){
-            // dd($request->all());
-            Auth::login($EmployeeModel);
-            $secret_key = JWT::encode($payload, env('JWT_SECRET'));
-            EmployeeModel::where('employee_email', $request->input('employee_email'))->update(['secret_key'=> "$secret_key"]);
-            return response()->json([
-                'status'=> 'succes',
-                'secret_key'=> $secret_key
+    
+        Auth::login($EmployeeModel);
+        $secret_key = JWT::encode($payload, env('JWT_SECRET'));
+        EmployeeModel::where('employee_email', $request->input('employee_email'))->update(['secret_key'=> "$secret_key"]);
+        return response()->json([             
+            'status' => 'succes',
+            'secret_key' => $secret_key
             ]);  
-        }
-        return response()->json(); 
+        
+        return $data->json_decode($response,true);
     } 
        
 }
