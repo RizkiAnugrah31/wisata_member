@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use App\EmployeeModel;
-use App\CredentialModel;
+use App\CredentialsModel;
 use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
@@ -22,23 +22,13 @@ class AuthController extends Controller
     }
 
     /**
-     * Get a JWT via given credentials.
+      * Get a JWT via given credentials.
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function login()
+    public function login(Request $request)
     {
-        $this->validate($request, [
-            'employee_email' => 'required|unique:employee,employee_email,1,employee_id',
-            'employee_password' => 'required|comfirmed'
-        ]);
-
-        $employee_email = $request->input('employee_email');
-        $employee_password = Hash::make($request->input('employee_password'));
-
-        $employee = EmployeeModel::where('employee_email', $employee_email)->first();
-
-        $employee = $request->only(['employee_email', 'employee_password']);
+        $credentials = $request->only(['employee_email', 'employee_password']);
 
         if (! $secret_key = auth()->attempt($credentials)) {
             return response()->json(['error' => 'Unauthorized'], 401);
@@ -66,7 +56,8 @@ class AuthController extends Controller
     {
         auth()->logout();
 
-        return response()->json(['message' => 'Successfully logged out']);
+        return response
+        ()->json(['message' => 'Successfully logged out']);
     }
 
     /**

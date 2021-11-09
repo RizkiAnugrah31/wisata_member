@@ -38,9 +38,9 @@ Route::group([
 
 ], function ($router) {
 
-    Route::post('login', 'Cms\AuthController@login');
-    Route::post('logout', 'Cms\AuthController@logout');
-    Route::post('refresh', 'Cms\AuthController@refresh');
-    Route::post('me', 'Cms\AuthController@me');
+    Route::post('/Employee/login', 'Cms\AuthController@login');
+    Route::post('/Employee/logout', 'Cms\AuthController@logout');
+    Route::post('/Employee/refresh', 'Cms\AuthController@refresh');
+    Route::post('/Employee/me', 'Cms\AuthController@me');
 
 });

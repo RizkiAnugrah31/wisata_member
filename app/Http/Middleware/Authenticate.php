@@ -20,10 +20,10 @@ class Authenticate
      * @param  \Illuminate\Contracts\Auth\Factory  $auth
      * @return void
      */
-    public function __construct(Auth $auth)
-    {
-        $this->auth = $auth;
-    }
+    // public function __construct(Auth $auth)
+    // {
+    //     $this->auth = $auth;
+    // }
 
     /**
      * Handle an incoming request.
@@ -35,25 +35,25 @@ class Authenticate
      */
     public function handle($request, Closure $next, $guard = null)
     {
-        if ($this->auth->guard($guard)->guest()) {
-            if ($request->has('secret_key')){
-                $secret_key = $request->input('secret_key');
-                $secret_key = CredentialModel::where('secret_key', $secret_key)->first();
-                if($secret_key == null) {
-                    $response['success'] = false;
-                    $response['message'] = 'Permission not Allowed';
+        // if ($this->auth->guard($guard)->guest()) {
+        //     if ($request->has('secret_key')){
+        //         $secret_key = $request->input('secret_key');
+        //         $secret_key = CredentialModel::where('secret_key', $secret_key)->first();
+        //         if($secret_key == null) {
+        //             $response['success'] = false;
+        //             $response['message'] = 'Permission not Allowed';
 
-                    return response($response) -> json();
-                }
-            }else{
-                $response['success'] = true;
-                $response['message'] = 'Login please!';
+        //             return response($response) -> json();
+        //         }
+        //     }else{
+        //         $response['success'] = true;
+        //         $response['message'] = 'Login please!';
 
-                return response($response) -> json();
-            }
+        //         return response($response) -> json();
+        //     }
             
             
-        }
+        // }
 
         
     }
