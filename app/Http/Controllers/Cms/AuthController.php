@@ -7,41 +7,128 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use App\EmployeeModel;
 use App\CredentialModel;
-
+use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
-    public function login (Request $request)
+    /**
+     * Create a new AuthController instance.
+     *
+     * @return void
+     */
+    public function __construct()
     {
-        // dd($request->all());
-        $this->validate($request, [
-            'employee_email' => 'required|employee_email',
-            'employee_password' => 'required'
-        ]);
-         
-        $employee_email = $request->input('employee_email');
-        $employee_password = $request->input('employee_password');
-        $hashPassword = Hash::make($employee_password);
-        $EmployeeModel = EmployeeModel::where("employee_email", $request->employee_email)->first();
+        $this->middleware('auth:api', ['except' => ['login']]);
+    }
 
-        $payload = [
-            'iat' => intval(microtime(true)),
-            'exp' => intval(microtime(true)) + (60 * 60 * 1000),
-            'uid' => $EmployeeModel->employee_id
-        ];
-    
-        Auth::login($EmployeeModel);
-        $secret_key = JWT::encode($payload, env('JWT_SECRET'));
-        EmployeeModel::where('employee_email', $request->input('employee_email'))->update(['secret_key'=> "$secret_key"]);
-        return response()->json([             
-            'status' => 'succes',
-            'secret_key' => $secret_key
-            ]);  
-        
-        return $data->json_decode($response,true);
-    } 
-       
+    /**
+     * Get a JWT via given credentials.
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function login()
+    {
+        $this->validate($request, [
+            'employee_email' => 'required|unique:employee,employee_email,1,employee_id',
+            'employee_password' => 'required|comfirmed'
+        ]);
+
+        $employee_email = $request->input('employee_email');
+        $employee_password = Hash::make($request->input('employee_password'));
+
+        $employee = EmployeeModel::where('employee_email', $employee_email)->first();
+
+        $employee = $request->only(['employee_email', 'employee_password']);
+
+        if (! $secret_key = auth()->attempt($credentials)) {
+            return response()->json(['error' => 'Unauthorized'], 401);
+        }
+
+        return $this->respondWithToken($secret_key);
+    }
+
+    /**
+     * Get the authenticated User.
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function me()
+    {
+        return response()->json(auth()->EmployeeModel());
+    }
+
+    /**
+     * Log the user out (Invalidate the token).
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function logout()
+    {
+        auth()->logout();
+
+        return response()->json(['message' => 'Successfully logged out']);
+    }
+
+    /**
+     * Refresh a token.
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function refresh()
+    {
+        return $this->respondWithToken(auth()->refresh());
+    }
+
+    /**
+     * Get the token array structure.
+     *
+     * @param  string $token
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    protected function respondWithToken($token)
+    {
+        return response()->json([
+            'access_token' => $secret_key,
+            'token_type' => 'bearer',
+            'expires_in' => auth()->factory()->getTTL() * 60
+        ]);
+    }
 }
+
+// class AuthController extends Controller
+// {
+//     public function login (Request $request)
+//     {
+//         // dd($request->all());
+//         $this->validate($request, [
+//             'employee_email' => 'required|employee_email',
+//             'employee_password' => 'required'
+//         ]);
+         
+//         $employee_email = $request->input('employee_email');
+//         $employee_password = $request->input('employee_password');
+//         $hashPassword = Hash::make($employee_password);
+//         $EmployeeModel = EmployeeModel::where("employee_email", $request->employee_email)->first();
+
+//         $payload = [
+//             'iat' => intval(microtime(true)),
+//             'exp' => intval(microtime(true)) + (60 * 60 * 1000),
+//             'uid' => $EmployeeModel->employee_id
+//         ];
+    
+//         Auth::login($EmployeeModel);
+//         $secret_key = JWT::encode($payload, env('JWT_SECRET'));
+//         EmployeeModel::where('employee_email', $request->input('employee_email'))->update(['secret_key'=> "$secret_key"]);
+//         return response()->json([             
+//             'status' => 'succes',
+//             'secret_key' => $secret_key
+//             ]);  
+        
+//         return $data->json_decode($response,true);
+//     } 
+       
+// }
 
 
 

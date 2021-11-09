@@ -30,3 +30,17 @@ $router->delete('/UserRoles/delete/{id}','Cms\UserRolesController@delete');
 $router->get('/Employee/show/{id}','Cms\UserController@show');
 $router->post('/Employee/register', 'Cms\AuthController@register');
 $router->post('/Employee/login', 'Cms\AuthController@login');
+
+Route::group([
+
+    'middleware' => 'api',
+    'prefix' => 'auth'
+
+], function ($router) {
+
+    Route::post('login', 'Cms\AuthController@login');
+    Route::post('logout', 'Cms\AuthController@logout');
+    Route::post('refresh', 'Cms\AuthController@refresh');
+    Route::post('me', 'Cms\AuthController@me');
+
+});
