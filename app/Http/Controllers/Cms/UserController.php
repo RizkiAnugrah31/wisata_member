@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Cms;
 
 Use App\EmployeeModel;
-// use Illuminate\Http\Request;
+use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
 class UserController extends Controller
@@ -13,24 +13,26 @@ class UserController extends Controller
         $this->middleware('auth');
     }
 
-    public function show($id)
+    public function indek ($id)
     {
-        $user = EmployeeModel::find($id);
-        if ($user)
-        {
-            return response()->json([
-                'success' => true,
-                'message' => 'User Found!',
-                'data' => $user
-            ], 200);
-        } 
-        else 
-        {
-            return response()->json([
-                'success' => false,
-                'message' => 'User Not Found!',
-                'data' => ''
-            ], 404);
+        $validator = Validator::make($request->all, [
+            'employee_username'=> 'required',
+            'employee_email' => 'required|string|email|unique::users',
+            'employee_password' => 'required|string|confirmed|min:6'
+        ]);
+        if($validator->fails()) {
+            return response()->json($validator->errors()->toJson(),400);
         }
+        $user = User::create(array_merge(
+            $validator->validated(),
+            ['password'=>bcrypt($request->password)]
+
+        ));
+        return response()->json([
+            'message'=>'User Success!',
+            'user'=> $user
+        ],201);
+
+        
     }
 }

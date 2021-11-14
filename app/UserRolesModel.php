@@ -31,3 +31,4 @@ class UserRolesModel extends Model
         'deleted_at'
     ];
 }
+
