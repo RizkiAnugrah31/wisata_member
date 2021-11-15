@@ -5,34 +5,30 @@ namespace App\Http\Controllers\Cms;
 Use App\EmployeeModel;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Validator;
+use Illuminate\Validation\ValidationException;
 
 class UserController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware('auth:api', ['except' => ['index']]);
     }
 
-    public function indek ($id)
+    public function index (Request $request)
     {
-        $validator = Validator::make($request->all, [
-            'employee_username'=> 'required',
-            'employee_email' => 'required|string|email|unique::users',
-            'employee_password' => 'required|string|confirmed|min:6'
+        $this->validate($request, [
+            'employee_email' =>'required|unique:users,employee_email',
+            'employee_password' => 'required|confirmed'
         ]);
-        if($validator->fails()) {
-            return response()->json($validator->errors()->toJson(),400);
-        }
-        $user = User::create(array_merge(
-            $validator->validated(),
-            ['password'=>bcrypt($request->password)]
 
-        ));
-        return response()->json([
-            'message'=>'User Success!',
-            'user'=> $user
-        ],201);
-
+        $employee_email = $request->input('employee_email');
+        $employee_password = Hash::make($request->input('password'));
         
+        User::create(['employee_email'=> $employee_email, 'employee_password' => $employee_password ]);
+
+        return response()->json(
+            ['status' => 'success',
+            'operation' => 'created']);
     }
 }

@@ -36,11 +36,12 @@ Route::group([
     'middleware' => 'api',
     'prefix' => 'auth'
 
-], function ($router) {
+], function() use ($router) {
 
-    Route::post('/Employee/login', 'Cms\AuthController@login');
-    Route::post('/Employee/logout', 'Cms\AuthController@logout');
-    Route::post('/Employee/refresh', 'Cms\AuthController@refresh');
-    Route::post('/Employee/me', 'Cms\AuthController@me');
+    $router->post('/Employee/login', 'Cms\UserController@login');
+    $router->post('/Employee/logout', 'Cms\AuthController@logout');
+    $router->post('/Employee/refresh', 'Cms\AuthController@refresh');
+    $router->post('/Employee/me ', 'Cms\AuthController@me');
+    $router->post('/Employee/index', 'Cms\AuthController@index');
 
 });

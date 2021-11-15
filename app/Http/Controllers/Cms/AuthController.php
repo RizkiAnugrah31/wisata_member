@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\Hash;
 use App\EmployeeModel;
 use App\CredentialsModel;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\ValidationException;
+use Validator;
 
 class AuthController extends Controller
 {
@@ -30,13 +32,13 @@ class AuthController extends Controller
     {
     //    dd($request->all());
         $this->validate($request, [
-            'employee_email' => 'required|employee_email',
+            'employee_email' => 'required|unique:employee,employee_email',
             'employee_password' => 'required'
         ]);
          
         $employee_email = $request->input('employee_email');
         $employee_password = $request->input('employee_password');
-        $hashPassword = Hash::check($employee_password);
+        $hashPassword = Hash::check($request->input('employee_password'));
         $EmployeeModel = EmployeeModel::where("employee_email", $request->employee_email)->first();        
 
         if(!empty($EmployeeModel)){
@@ -98,7 +100,7 @@ class AuthController extends Controller
     protected function respondWithToken($token)
     {
         return response()->json([
-            'access_token' => $secret_key,
+            'secret_key' => $secret_key,
             'token_type' => 'bearer',
             'expires_in' => auth()->factory()->getTTL() * 60
         ]);

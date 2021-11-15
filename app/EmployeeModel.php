@@ -8,11 +8,10 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class EmployeeModel extends Model implements AuthenticatableContract, AuthorizableContract, JWTSubject
-{
+class EmployeeModel extends Model {
     //    Soft Delete
     use softDeletes;
-    use Authenticatable, Authorizable;
+   
 
 //    Nama Table
     protected $table = "employee";
@@ -44,18 +43,5 @@ class EmployeeModel extends Model implements AuthenticatableContract, Authorizab
         'deleted_at'
     ];
     
-    public function getJWTIdentifier()
-    {
-        return $this->getKey();
-    }
 
-    /**
-     * Return a key value array, containing any custom claims to be added to the JWT.
-     *
-     * @return array
-     */
-    public function getJWTCustomClaims()
-    {
-        return [];
-    }
 }
