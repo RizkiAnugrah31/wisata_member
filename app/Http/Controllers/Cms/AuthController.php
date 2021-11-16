@@ -31,6 +31,7 @@ class AuthController extends Controller
     public function login(Request $request)
     {
     //    dd($request->all());
+         $data = EmployeeModel::paginate($request->limit);
         $this->validate($request, [
             'employee_email' => 'required|unique:employee,employee_email',
             'employee_password' => 'required'
@@ -38,10 +39,11 @@ class AuthController extends Controller
          
         $employee_email = $request->input('employee_email');
         $employee_password = $request->input('employee_password');
-        $hashPassword = Hash::check($request->input('employee_password'));
+        // $employee_password -> Hash::make($request->employee_password);
         $EmployeeModel = EmployeeModel::where("employee_email", $request->employee_email)->first();        
 
         if(!empty($EmployeeModel)){
+            dd($request->all());
             $payload = [
                 'iat' => intval(microtime(true)),
                 'exp' => intval(microtime(true)) + (60 * 60 * 1000),
@@ -54,7 +56,7 @@ class AuthController extends Controller
                 ]);  
         }
         
-        return $data->json_decode($response,true);
+        
     }
 
     /**

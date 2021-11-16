@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use Validator;
 use Illuminate\Validation\ValidationException;
 
+
 class UserController extends Controller
 {
     public function __construct()
