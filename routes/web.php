@@ -27,21 +27,8 @@ $router->post('/UserRoles/store','Cms\UserRolesController@store');
 $router->put('/UserRoles/update/{id}','Cms\UserRolesController@update');
 $router->delete('/UserRoles/delete/{id}','Cms\UserRolesController@delete');
 
-$router->get('/Employee/show/{id}','Cms\UserController@show');
-$router->post('/Employee/register', 'Cms\AuthController@register');
 $router->post('/Employee/login', 'Cms\AuthController@login');
 
-Route::group([
 
-    'middleware' => 'api',
-    'prefix' => 'auth'
 
-], function() use ($router) {
 
-    $router->post('/Employee/login', 'Cms\UserController@login');
-    $router->post('/Employee/logout', 'Cms\AuthController@logout');
-    $router->post('/Employee/refresh', 'Cms\AuthController@refresh');
-    $router->post('/Employee/me ', 'Cms\AuthController@me');
-    $router->post('/Employee/index', 'Cms\AuthController@index');
-
-});

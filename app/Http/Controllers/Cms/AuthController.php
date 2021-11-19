@@ -10,6 +10,7 @@ use App\CredentialsModel;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
 use Validator;
+use App\Helpers\ResponseFormatter;
 
 class AuthController extends Controller
 {
@@ -30,34 +31,38 @@ class AuthController extends Controller
      */
     public function login(Request $request)
     {
-    //    dd($request->all());
-         $data = EmployeeModel::paginate($request->limit);
+    
         $this->validate($request, [
-            'employee_email' => 'required|unique:employee,employee_email',
-            'employee_password' => 'required'
+            'employee_email' => 'required|min:4|exists:employee',
+            'employee_password' => 'required|min:4'
+        ],
+        [
+            'employee_email.required' => 'Harap masukkan email',
+            'employee_password.required' => 'Harap masukkan password'
         ]);
          
-        $employee_email = $request->input('employee_email');
-        $employee_password = $request->input('employee_password');
-        // $employee_password -> Hash::make($request->employee_password);
-        $EmployeeModel = EmployeeModel::where("employee_email", $request->employee_email)->first();        
+        $credentials = request(['employee_email', 'employee_password']);
 
-        if(!empty($EmployeeModel)){
-            dd($request->all());
-            $payload = [
-                'iat' => intval(microtime(true)),
-                'exp' => intval(microtime(true)) + (60 * 60 * 1000),
-                'uid' => $EmployeeModel->employee_id
-            ];
-            $secret_key = JWT::encode($payload, env('JWT_SECRET'));
-            return response()->json([             
-                'status' => 'succes',
-                'secret_key' => $secret_key
-                ]);  
-        }
-        
-        
+        $EmployeeModel = EmployeeModel::where('employee_email', $request->employee_email)->first();
+
+       if($EmployeeModel) {
+           return response()->json([
+               'message' => 'Data Valid',
+               'succes' => true ,
+               'data' => $credentials 
+           ], 200);
+       } else {
+        return response()->json([
+            'message' => 'Data Valid',
+            'succes' => true,
+            'data' => $credentials
+        ], 401); 
+       }
+
+       
     }
+        
+    
 
     /**
      * Get the authenticated User.
@@ -144,7 +149,7 @@ class AuthController extends Controller
         
         // // // $EmployeeModel = EmployeeModel::find($employee_id);
         // // $EmployeeModel->employee_email = $request->get('employee_email');
-        // // $EmployeeModel->employee_password = $request->get('employee_password');
+        // $EmployeeModel->employee_password = $request->get('employee_password');
         // if (Hash::check($request->input('employee_password', $EmployeeModel->employee_password))) {
         //     $apikey = base64_encode(str_random(40));
         //     EmployeeModel::where('employee_email', $request->input('employee_email'))->update(['api_key'=> "$apikey"]);
