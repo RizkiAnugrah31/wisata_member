@@ -31,7 +31,6 @@ class AuthController extends Controller
      */
     public function login(Request $request)
     {
-    
         $this->validate($request, [
             'employee_email' => 'required|min:4|exists:employee',
             'employee_password' => 'required|min:4'
@@ -40,10 +39,24 @@ class AuthController extends Controller
             'employee_email.required' => 'Harap masukkan email',
             'employee_password.required' => 'Harap masukkan password'
         ]);
+
          
-        $credentials = request(['employee_email', 'employee_password']);
+        $credentials = request([
+            'user_roles_id',
+            'employee_firstname' ,
+            'employee_middlename' ,
+            'employee_lastname' ,
+            'employee_username' ,
+            'employee_email' ,
+            'employee_image'
+        ]);
 
         $EmployeeModel = EmployeeModel::where('employee_email', $request->employee_email)->first();
+        $EmployeeModel = EmployeeModel::where('employee_password', $request->employee_password)->first();
+        $employee_password = app('hash')->make("employee_password");
+           if(Hash::check('employee_password', $employee_password)) {
+                //password is matched
+              }
 
        if($EmployeeModel) {
            return response()->json([
@@ -53,8 +66,8 @@ class AuthController extends Controller
            ], 200);
        } else {
         return response()->json([
-            'message' => 'Data Valid',
-            'succes' => true,
+            'message' => 'Data Tidak Valid',
+            'succes' => false,
             'data' => $credentials
         ], 401); 
        }
