@@ -6,6 +6,7 @@ use App\EmployeeModel;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Ramsey\Uuid\Uuid;
+use Illuminate\Support\Facades\Hash;
 
 class EmployeeController extends Controller
 {
@@ -31,6 +32,7 @@ class EmployeeController extends Controller
         $data = $request->all();
         $uuid1 = Uuid::uuid1();
         $data["employee_id"] = $uuid1->toString();
+        $data["employee_password"] = Hash::make($data["employee_password"]);
 //        query create
         $create = EmployeeModel::insert($data);
 //        check if create success or not

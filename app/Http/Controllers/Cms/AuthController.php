@@ -31,8 +31,9 @@ class AuthController extends Controller
      */
     public function login(Request $request)
     {
+        
         $this->validate($request, [
-            'employee_email' => 'required|min:4|exists:employee',
+            'employee_email' => 'required|min:4',
             'employee_password' => 'required|min:4'
         ],
         [
@@ -42,21 +43,31 @@ class AuthController extends Controller
 
          
         $credentials = request([
-            'user_roles_id',
-            'employee_firstname' ,
-            'employee_middlename' ,
-            'employee_lastname' ,
-            'employee_username' ,
+            
             'employee_email' ,
-            'employee_image'
+            'employee_password'
+           
         ]);
 
         $EmployeeModel = EmployeeModel::where('employee_email', $request->employee_email)->first();
-        $EmployeeModel = EmployeeModel::where('employee_password', $request->employee_password)->first();
-        $employee_password = app('hash')->make("employee_password");
-           if(Hash::check('employee_password', $employee_password)) {
-                //password is matched
-              }
+             if($EmployeeModel) {
+                 //do something
+                 if(Hash::check($request->employee_password, $EmployeeModel->employee_password)) {
+                     //do something
+                    return response()->json([
+                        'data' => [
+                            'employee_firstname' => $EmployeeModel->employee_firstname
+                        ],
+                        'message' => 'message',
+                        'success' => true
+                    ]);
+                  }
+             } 
+             
+                return 'Invalid';
+             
+        return $EmployeeModel->employee_firstname;
+         
 
        if($EmployeeModel) {
            return response()->json([
