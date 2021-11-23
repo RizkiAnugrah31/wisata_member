@@ -56,7 +56,11 @@ class AuthController extends Controller
                      //do something
                     return response()->json([
                         'data' => [
-                            'employee_firstname' => $EmployeeModel->employee_firstname
+                            'employee_firstname' => $EmployeeModel->employee_firstname,
+                            'employee_middlename' => $EmployeeModel->employee_middlename,
+                            'employee_lastname' => $EmployeeModel->employee_lastname,
+                            'employee_username' => $EmployeeModel->employee_username,
+                            'employee_image' => $EmployeeModel->employee_image
                         ],
                         'message' => 'message',
                         'success' => true
