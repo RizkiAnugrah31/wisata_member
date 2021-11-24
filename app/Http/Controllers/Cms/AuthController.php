@@ -56,13 +56,14 @@ class AuthController extends Controller
                      //do something
                     return response()->json([
                         'data' => [
+                            'employee_id' => $EmployeeModel->employee_id,
                             'employee_firstname' => $EmployeeModel->employee_firstname,
                             'employee_middlename' => $EmployeeModel->employee_middlename,
                             'employee_lastname' => $EmployeeModel->employee_lastname,
                             'employee_username' => $EmployeeModel->employee_username,
                             'employee_image' => $EmployeeModel->employee_image
                         ],
-                        'message' => 'message',
+                        'message' => 'Valid',
                         'success' => true
                     ]);
                   }
@@ -70,22 +71,22 @@ class AuthController extends Controller
              
                 return 'Invalid';
              
-        return $EmployeeModel->employee_firstname;
+        // return $EmployeeModel->employee_firstname;
          
 
-       if($EmployeeModel) {
-           return response()->json([
-               'message' => 'Data Valid',
-               'succes' => true ,
-               'data' => $credentials 
-           ], 200);
-       } else {
-        return response()->json([
-            'message' => 'Data Tidak Valid',
-            'succes' => false,
-            'data' => $credentials
-        ], 401); 
-       }
+    //    if($EmployeeModel) {
+    //        return response()->json([
+    //            'message' => 'Data Valid',
+    //            'succes' => true ,
+    //            'data' => $credentials 
+    //        ], 200);
+    //    } else {
+    //     return response()->json([
+    //         'message' => 'Data Tidak Valid',
+    //         'succes' => false,
+    //         'data' => $credentials
+    //     ], 401); 
+    //    }
 
        
     }
