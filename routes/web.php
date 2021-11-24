@@ -15,6 +15,11 @@ $router->get('/', function () use ($router) {
     return $router->app->version();
 });
 
+// Contoh
+$router->get('/contoh', 'ContohController@exampleGet');
+$router->post('/contoh', 'ContohController@examplePost');
+// End Contoh
+
 $router->get('/Employee/fetch','Cms\EmployeeController@index');
 $router->get('/Employee/detail/{id}','Cms\EmployeeController@detail');
 $router->post('/Employee/store','Cms\EmployeeController@store');
