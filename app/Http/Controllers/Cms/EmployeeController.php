@@ -36,13 +36,20 @@ class EmployeeController extends Controller
 //        query create
         $create = EmployeeModel::insert($data);
 //        check if create success or not
-        // $data = $response->getBody();
-        // if ($create) {
-        //     return "success";
-        // } else {
-        //     return "false";
-        // }
-        return $data;
+        
+        if ($create) {
+            return response()->json([
+                'data' => $create,
+                'message' => 'Berhasil',
+                'success' => true
+            ]);
+        } else {
+            return response()->json([
+                'message' => 'Tidak Berhasil',
+                'success' => false
+            ]);
+        }
+        // return $data;
         
     }
     public function update(Request $request, $id)
@@ -54,12 +61,18 @@ class EmployeeController extends Controller
         $update = EmployeeModel::where('employee_id',$id)->update($data);
 //        check if update success or not
         // dd($update);
-        // if ($update) {
-        //     return "success";
-        // } else {
-        //     return "false";
-        // }
-        return $data;
+        if ($update) {
+            return response()->json([
+                'data' => $update,
+                'message' => 'Berhasil',
+                'success' => true
+            ]);
+        } else {
+            return response()->json([
+                'message' => 'Tidak Berhasil',
+                'success' => false
+            ]);
+        }
     }
     public function delete($id)
     {
@@ -67,15 +80,17 @@ class EmployeeController extends Controller
         $delete = EmployeeModel::find($id)->delete();
 //        check if delete success or not
         if ($delete) {
-            return "success";
+            return response()->json([
+                'data' => $delete,
+                'message' => 'Berhasil',
+                'success' => true
+            ]);
         } else {
-            return "false";
+            return response()->json([
+                'message' => 'Tidak Berhasil',
+                'success' => false
+            ]);
         }
     }
 
-    public function login(Request $request)
-    {
-        $login = EmployeeModel::insert($data);
-        return $data;
-    }
 }

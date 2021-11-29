@@ -72,7 +72,7 @@ class AuthController extends Controller
                 return response()->json([
                     'message' => 'Data Tidak Valid',
                     'succes' => false,
-                    'data' => new\stdClass()
+                    'data' => new \stdClass()
                 ]);
              
         // return $EmployeeModel->employee_firstname;

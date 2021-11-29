@@ -35,10 +35,17 @@ class UserRolesController extends Controller
         $create = UserRolesModel::insert($data);
 //        check if create success or not
         if ($create) {
-            return "success";
+            return response()->json([
+                'data' => $create,
+                'message' => 'Berhasil',
+                'success' => true
+            ]);
         } else {
-            return "false";
-        }
+            return response()->json([
+                'message' => 'Tidak Berhasil',
+                'success' => false
+            ]);
+}
     }
     public function update(Request $request, $id)
     {
@@ -48,10 +55,17 @@ class UserRolesController extends Controller
         $update = UserRolesModel::where('user_roles_id',$id)->update($data);
 //        check if update success or not
         if ($update) {
-            return "success";
+            return response()->json([
+                'data' => $update,
+                'message' => 'Berhasil',
+                'success' => true
+            ]);
         } else {
-            return "false";
-        }
+            return response()->json([
+                'message' => 'Tidak Berhasil',
+                'success' => false
+            ]);
+         }
     }
     public function delete($id)
     {
@@ -59,9 +73,16 @@ class UserRolesController extends Controller
         $delete = UserRolesModel::find($id)->delete();
 //        check if delete success or not
         if ($delete) {
-            return "success";
+            return response()->json([
+                'data' => $delete,
+                'message' => 'Berhasil',
+                'success' => true
+            ]);
         } else {
-            return "false";
+            return response()->json([
+                'message' => 'Tidak Berhasil',
+                'success' => false
+            ]);
         }
     }
 }
