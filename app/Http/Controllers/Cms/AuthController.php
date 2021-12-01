@@ -75,22 +75,7 @@ class AuthController extends Controller
                     'data' => new \stdClass()
                 ]);
              
-        // return $EmployeeModel->employee_firstname;
-         
-
-    //    if($EmployeeModel) {
-    //        return response()->json([
-    //            'message' => 'Data Valid',
-    //            'succes' => true ,
-    //            'data' => $credentials 
-    //        ], 200);
-    //    } else {
-    //     return response()->json([
-    //         'message' => 'Data Tidak Valid',
-    //         'succes' => false,
-    //         'data' => $credentials
-    //     ], 401); 
-    //    }
+        
 
        
     }

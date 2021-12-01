@@ -34,6 +34,11 @@ $router->delete('/UserRoles/delete/{id}','Cms\UserRolesController@delete');
 
 $router->post('/Employee/login', 'Cms\AuthController@login');
 
+$router->get('/Credentials/fetch','Cms\CredentialsController@index');
+$router->get('/Credentials/detail/{id}','Cms\CredentialsController@detail');
+$router->post('/Credentials/store','Cms\CredentialsController@store');
+$router->put('/Credentials/update/{id}','Cms\CredentialsController@update');
+$router->delete('/Credentials/delete/{id}','Cms\CredentialsController@delete');
 
 
 

@@ -14,7 +14,7 @@ class Credentials extends Migration
     public function up()
     {
         Schema::create('credentials', function(Blueprint $table){
-        $table->uuid("credential_id");
+        $table->uuid("credential_id")->primary();
         $table->string("platform");
         $table->string("client_key");
         $table->string("secret_key");
