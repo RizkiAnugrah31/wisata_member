@@ -2,25 +2,24 @@
 
 namespace App\Http\Controllers\Cms;
 
-Use App\CredentialModel;
+
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Validator;
 use Illuminate\Validation\ValidationException;
-use App\Helpers\ResponseFormatter;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use App\Models\UserRolesModel;
+use App\CredentialsModel;
 
 
 class TokenController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth:api', ['except' => ['index']]);
+        $this->middleware('auth:api', ['except' => ['login']]);
     }
 
-    public function index (Request $request)
+    public function login (Request $request)
     {
         $this->validate($request, [
             'secret_key' => 'required|min:4',
@@ -32,13 +31,14 @@ class TokenController extends Controller
         ]);
 
          
-        $credentials = request([
+        $data = request([
             
             'secret_key' ,
             'client_key'
            
         ]);
 
+        // dd($data);
         $CredentialsModel = CredentialsModel::where('secret_key', $request->secret_key)->first();
         if($CredentialsModel) {
             //do something
@@ -46,6 +46,7 @@ class TokenController extends Controller
                 //do something
                return response()->json([
                    'data' => [
+                       'credential_id' => $CredentialsModel->credential_id,
                        'platfrom' => $CredentialsModel->platform
                    ],
                    'message' => 'Valid',

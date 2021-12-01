@@ -30,7 +30,7 @@ class CredentialsController extends Controller
         $data = $request->all();
         $uuid1 = Uuid::uuid1();
         $data["credential_id"] = $uuid1->toString();
-        $data["secret_key"] = Hash::make($data["secret_key"]);
+        $data["client_key"] = Hash::make($data["client_key"]);
 //        query create
         $create = CredentialsModel::insert($data);
 //        check if create success or not
