@@ -11,7 +11,7 @@ class CredentialsModel extends Model
     use softDeletes;
 
 //    Nama Table
-    protected $table = "credential";
+    protected $table = "credentials";
 
 //    Nama Primary Key
     protected $primaryKey = "credential_id";
@@ -22,6 +22,8 @@ class CredentialsModel extends Model
         "client_key",
         "secret_key"
     ];
+
+    public $incrementing=false;
 
 //  Field yang di sembunyikan
     protected $hidden = [

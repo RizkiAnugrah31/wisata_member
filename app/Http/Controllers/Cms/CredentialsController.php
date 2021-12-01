@@ -29,7 +29,7 @@ class CredentialsController extends Controller
         // dd($request->all());
         $data = $request->all();
         $uuid1 = Uuid::uuid1();
-        $data["credentials_id"] = $uuid1->toString();
+        $data["credential_id"] = $uuid1->toString();
         $data["secret_key"] = Hash::make($data["secret_key"]);
 //        query create
         $create = CredentialsModel::insert($data);
@@ -56,7 +56,7 @@ class CredentialsController extends Controller
         $data = $request->all();
         // dd($id);
 //        query update
-        $update = CredentialsModel::where('credentials_id',$id)->update($data);
+        $update = CredentialsModel::where('credential_id',$id)->update($data);
 //        check if update success or not
         // dd($update);
         if ($update) {

@@ -40,5 +40,5 @@ $router->post('/Credentials/store','Cms\CredentialsController@store');
 $router->put('/Credentials/update/{id}','Cms\CredentialsController@update');
 $router->delete('/Credentials/delete/{id}','Cms\CredentialsController@delete');
 
-
+$router->post('/Credentials/login', 'Cms\TokenController@login');
 
