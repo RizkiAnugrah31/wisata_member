@@ -49,7 +49,7 @@ class TokenController extends Controller
                        'credential_id' => $CredentialsModel->credential_id,
                        'platfrom' => $CredentialsModel->platform
                    ],
-                   'message' => 'Valid',
+                   'message' => 'Data Valid',
                    'success' => true
                ]);
              }

@@ -35,27 +35,27 @@ class Authenticate
      */
     public function handle($request, Closure $next, $guard = null)
     {
-        if ($this->auth->guard($guard)->guest()) {
-            if ($request->has('secret_key')){
-                $secret_key = $request->input('secret_key');
-                $secret_key = CredentialModel::where('secret_key', $secret_key)->first();
-                if($secret_key == null) {
-                    $response['success'] = false;
-                    $response['message'] = 'Permission not Allowed';
+        // /if ($this->auth->guard($guard)->guest()) {
+        //     if ($request->has('secret_key')){
+        //         $secret_key = $request->input('secret_key');
+        //         $secret_key = CredentialModel::where('secret_key', $secret_key)->first();
+        //         if($secret_key == null) {
+        //             $response['success'] = false;
+        //             $response['message'] = 'Permission not Allowed';
 
-                    return response($response) -> json();
-                }
-            }else{
-                $response['success'] = true;
-                $response['message'] = 'Login please!';
+        //             return response($response) -> json();
+        //         }
+        //     }else{
+        //         $response['success'] = true;
+        //         $response['message'] = 'Login please!';
 
-                return response($response) -> json([
-                    'data' => $secret_key
-                ]);
-            }
+        //         return response($response) -> json([
+        //             'data' => $secret_key
+        //         ]);
+        //     }
             
             
-        }
+        // }
 
         
     }
