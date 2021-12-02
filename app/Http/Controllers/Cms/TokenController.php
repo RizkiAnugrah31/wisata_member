@@ -39,10 +39,10 @@ class TokenController extends Controller
         ]);
 
         // dd($data);
-        $CredentialsModel = CredentialsModel::where('secret_key', $request->secret_key)->first();
+        $CredentialsModel = CredentialsModel::where('client_key', $request->client_key)->first();
         if($CredentialsModel) {
             //do something
-            if(Hash::check($request->client_key, $CredentialsModel->client_key)) {
+            if(Hash::check($request->secret_key, $CredentialsModel->secret_key)) {
                 //do something
                return response()->json([
                    'data' => [
@@ -57,7 +57,7 @@ class TokenController extends Controller
         
            return response()->json([
                'message' => 'Data Tidak Valid',
-               'succes' => false,
+               'success' => false,
                'data' => new \stdClass()
            ]);
 

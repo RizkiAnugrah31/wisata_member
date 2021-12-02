@@ -71,7 +71,7 @@ class AuthController extends Controller
              
                 return response()->json([
                     'message' => 'Data Tidak Valid',
-                    'succes' => false,
+                    'success' => false,
                     'data' => new \stdClass()
                 ]);
              
