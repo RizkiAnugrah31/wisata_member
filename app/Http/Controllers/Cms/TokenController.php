@@ -47,7 +47,7 @@ class TokenController extends Controller
                return response()->json([
                    'data' => [
                        'credential_id' => $CredentialsModel->credential_id,
-                       'platfrom' => $CredentialsModel->platform
+                       'platform' => $CredentialsModel->platform
                    ],
                    'message' => 'Data Valid',
                    'success' => true
