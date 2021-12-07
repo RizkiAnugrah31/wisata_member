@@ -33,6 +33,11 @@ class MenuGroupsModel extends Model {
         'deleted_at'
     ];
     
+    public function menus()
+    {
+        return $this->hasMany(MenusModel::class, 'menu_id', 'menu_id');
+    }
+
 
 }
 

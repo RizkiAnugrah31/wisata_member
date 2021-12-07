@@ -14,12 +14,36 @@ class UserPrivilegesController extends Controller
         // dd($request->all());
         //        Get all data Menu from database
         $data = UserPrivilegesModel::paginate($request->limit);
-        return $data;
+        if ($data) {
+            return response()->json([
+                'data' => $data,
+                'message' => 'Berhasil',
+                'success' => true
+            ]);
+        } else {
+            return response()->json([
+                'data' => '' ,
+                'message' => 'Tidak Berhasil',
+                'success' => false
+            ]);
+        }
     }
 
     public function detail($id){
         $data = UserPrivilegesModel::find($id);
-        return $data;
+        if ($data) {
+            return response()->json([
+                'data' => $data,
+                'message' => 'Berhasil',
+                'success' => true
+            ]);
+        } else {
+            return response()->json([
+                'data' => '' ,
+                'message' => 'Tidak Berhasil',
+                'success' => false
+            ]);
+        }
     }
 
     public function store(Request $request)
@@ -41,6 +65,7 @@ class UserPrivilegesController extends Controller
             ]);
         } else {
             return response()->json([
+                'data' => '' ,
                 'message' => 'Tidak Berhasil',
                 'success' => false
             ]);
@@ -65,6 +90,7 @@ class UserPrivilegesController extends Controller
             ]);
         } else {
             return response()->json([
+                'data' => '' ,
                 'message' => 'Tidak Berhasil',
                 'success' => false
             ]);
@@ -83,6 +109,7 @@ class UserPrivilegesController extends Controller
             ]);
         } else {
             return response()->json([
+                'data' => '' ,
                 'message' => 'Tidak Berhasil',
                 'success' => false
             ]);

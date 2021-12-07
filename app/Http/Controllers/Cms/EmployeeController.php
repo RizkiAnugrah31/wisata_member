@@ -15,12 +15,36 @@ class EmployeeController extends Controller
         // dd($request->all());
         //        Get all data Menu from database
         $data = EmployeeModel::paginate($request->limit);
-        return $data;
+        if ($data) {
+            return response()->json([
+                'data' => $data,
+                'message' => 'Berhasil',
+                'success' => true
+            ]);
+        } else {
+            return response()->json([
+                'data' => '' ,
+                'message' => 'Tidak Berhasil',
+                'success' => false
+            ]);
+        }
     }
 
     public function detail($id){
         $data = EmployeeModel::find($id);
-        return $data;
+        if ($data) {
+            return response()->json([
+                'data' => $data,
+                'message' => 'Berhasil',
+                'success' => true
+            ]);
+        } else {
+            return response()->json([
+                'data' => '' ,
+                'message' => 'Tidak Berhasil',
+                'success' => false
+            ]);
+        }
     }
 
 
@@ -45,6 +69,7 @@ class EmployeeController extends Controller
             ]);
         } else {
             return response()->json([
+                'data' => '' ,
                 'message' => 'Tidak Berhasil',
                 'success' => false
             ]);
@@ -69,6 +94,7 @@ class EmployeeController extends Controller
             ]);
         } else {
             return response()->json([
+                'data' => '' ,
                 'message' => 'Tidak Berhasil',
                 'success' => false
             ]);
@@ -87,6 +113,7 @@ class EmployeeController extends Controller
             ]);
         } else {
             return response()->json([
+                'data' => '' ,
                 'message' => 'Tidak Berhasil',
                 'success' => false
             ]);

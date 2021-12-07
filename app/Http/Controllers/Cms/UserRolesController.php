@@ -14,12 +14,36 @@ class UserRolesController extends Controller
         // dd($request->all());
         //        Get all data Menu from database
         $data = UserRolesModel::paginate($request->limit);
-        return $data;
+        if ($data) {
+            return response()->json([
+                'data' => $data,
+                'message' => 'Berhasil',
+                'success' => true
+            ]);
+        } else {
+            return response()->json([
+                'data' => '' ,
+                'message' => 'Tidak Berhasil',
+                'success' => false
+            ]);
+        }
     }
 
     public function detail($id){
         $data = UserRolesModel::find($id);
-        return $data;
+        if ($data) {
+            return response()->json([
+                'data' => $data,
+                'message' => 'Berhasil',
+                'success' => true
+            ]);
+        } else {
+            return response()->json([
+                'data' => '',
+                'message' => 'Tidak Berhasil',
+                'success' => false
+            ]);
+        }
     }
 
 
@@ -42,6 +66,7 @@ class UserRolesController extends Controller
             ]);
         } else {
             return response()->json([
+                'data' => '' ,
                 'message' => 'Tidak Berhasil',
                 'success' => false
             ]);
@@ -62,6 +87,7 @@ class UserRolesController extends Controller
             ]);
         } else {
             return response()->json([
+                'data' => '' ,
                 'message' => 'Tidak Berhasil',
                 'success' => false
             ]);
@@ -80,6 +106,7 @@ class UserRolesController extends Controller
             ]);
         } else {
             return response()->json([
+                'data' => '' ,
                 'message' => 'Tidak Berhasil',
                 'success' => false
             ]);
