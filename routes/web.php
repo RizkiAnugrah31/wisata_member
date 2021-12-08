@@ -16,8 +16,11 @@ $router->get('/', function () use ($router) {
 });
 
 // Contoh
-$router->get('/contoh', 'ContohController@exampleGet');
-$router->post('/contoh', 'ContohController@examplePost');
+$router->get('/contoh', 'ContohController@fetch');
+$router->get('/contoh/{id}', 'ContohController@detail');
+$router->post('/contoh', 'ContohController@store');
+$router->put('/contoh/{id}', 'ContohController@update');
+$router->delete('/contoh/{id}', 'ContohController@destroy');
 // End Contoh
 
 $router->get('/Employee/fetch','Cms\EmployeeController@index');
