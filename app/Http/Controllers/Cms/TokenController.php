@@ -21,7 +21,8 @@ class TokenController extends Controller
 
     public function login (Request $request)
     {
-        $this->validate($request, [
+        $validator = Validator::make($request->all(),
+        [
             'secret_key' => 'required|min:4',
             'client_key' => 'required|min:4'
         ],
@@ -30,6 +31,13 @@ class TokenController extends Controller
             'client_key.required' => 'Harap masukkan client_key'
         ]);
 
+        if($validator->fails()) {
+            return response()->json([
+                'data' => new \stdClass(),
+                'message'=> implode('',$validator->getMessageBag()->all()),
+                'success'=> false
+            ]);
+        }
          
         $data = request([
             
@@ -56,7 +64,7 @@ class TokenController extends Controller
         } 
         
            return response()->json([
-               'message' => 'Data Tidak Valid',
+               'message' => 'Token Service Membership Gagal Mendapatkan Data',
                'success' => false,
                'data' => new \stdClass()
            ]);

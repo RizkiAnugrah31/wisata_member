@@ -24,7 +24,7 @@ class EmployeeController extends Controller
         } else {
             return response()->json([
                 'data' => '' ,
-                'message' => 'Tidak Berhasil',
+                'message' => 'Employee Service Membership Gagal Mendapatkan Data',
                 'success' => false
             ]);
         }
@@ -41,7 +41,7 @@ class EmployeeController extends Controller
         } else {
             return response()->json([
                 'data' => '' ,
-                'message' => 'Tidak Berhasil',
+                'message' => 'Employee Service Membership Gagal Mendapatkan Data',
                 'success' => false
             ]);
         }
@@ -70,7 +70,7 @@ class EmployeeController extends Controller
         } else {
             return response()->json([
                 'data' => '' ,
-                'message' => 'Tidak Berhasil',
+                'message' => 'Employee Service Membership Gagal Mendapatkan Data',
                 'success' => false
             ]);
         }
@@ -95,7 +95,7 @@ class EmployeeController extends Controller
         } else {
             return response()->json([
                 'data' => '' ,
-                'message' => 'Tidak Berhasil',
+                'message' => 'Employee Service Membership Gagal Mendapatkan Data',
                 'success' => false
             ]);
         }
@@ -114,7 +114,7 @@ class EmployeeController extends Controller
         } else {
             return response()->json([
                 'data' => '' ,
-                'message' => 'Tidak Berhasil',
+                'message' => 'Employee Service Membership Gagal Mendapatkan Data',
                 'success' => false
             ]);
         }

@@ -23,7 +23,7 @@ class MenuGroupsController extends Controller
         } else {
             return response()->json([
                 'data' => '' ,
-                'message' => 'Tidak Berhasil',
+                'message' => 'MenuGroups Service Membership Gagal Mendapatkan Data',
                 'success' => false
             ]);
         }
@@ -40,7 +40,7 @@ class MenuGroupsController extends Controller
         } else {
             return response()->json([
                 'data' => '' ,
-                'message' => 'Tidak Berhasil',
+                'message' => 'MenuGroups Service Membership Gagal Mendapatkan Data',
                 'success' => false
             ]);
         }
@@ -66,7 +66,7 @@ class MenuGroupsController extends Controller
         } else {
             return response()->json([
                 'data' => '' ,
-                'message' => 'Tidak Berhasil',
+                'message' => 'MenuGroups Service Membership Gagal Mendapatkan Data',
                 'success' => false
             ]);
         }
@@ -91,7 +91,7 @@ class MenuGroupsController extends Controller
         } else {
             return response()->json([
                 'data' => '' ,
-                'message' => 'Tidak Berhasil',
+                'message' => 'MenuGroups Service Membership Gagal Mendapatkan Data',
                 'success' => false
             ]);
         }
@@ -110,7 +110,7 @@ class MenuGroupsController extends Controller
         } else {
             return response()->json([
                 'data' => '' ,
-                'message' => 'Tidak Berhasil',
+                'message' => 'MenuGroups Service Membership Gagal Mendapatkan Data',
                 'success' => false
             ]);
         }

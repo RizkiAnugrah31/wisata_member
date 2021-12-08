@@ -23,7 +23,7 @@ class UserRolesController extends Controller
         } else {
             return response()->json([
                 'data' => '' ,
-                'message' => 'Tidak Berhasil',
+                'message' => 'UserRoles Service Membership Gagal Mendapatkan Data',
                 'success' => false
             ]);
         }
@@ -40,7 +40,7 @@ class UserRolesController extends Controller
         } else {
             return response()->json([
                 'data' => '',
-                'message' => 'Tidak Berhasil',
+                'message' => 'UserRoles Service Membership Gagal Mendapatkan Data',
                 'success' => false
             ]);
         }
@@ -67,7 +67,7 @@ class UserRolesController extends Controller
         } else {
             return response()->json([
                 'data' => '' ,
-                'message' => 'Tidak Berhasil',
+                'message' => 'UserRoles Service Membership Gagal Mendapatkan Data',
                 'success' => false
             ]);
 }
@@ -88,7 +88,7 @@ class UserRolesController extends Controller
         } else {
             return response()->json([
                 'data' => '' ,
-                'message' => 'Tidak Berhasil',
+                'message' => 'UserRoles Service Membership Gagal Mendapatkan Data',
                 'success' => false
             ]);
          }
@@ -107,7 +107,7 @@ class UserRolesController extends Controller
         } else {
             return response()->json([
                 'data' => '' ,
-                'message' => 'Tidak Berhasil',
+                'message' => 'UserRoles Service Membership Gagal Mendapatkan Data',
                 'success' => false
             ]);
         }

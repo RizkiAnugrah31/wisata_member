@@ -32,7 +32,8 @@ class AuthController extends Controller
     public function login(Request $request)
     {
         
-        $this->validate($request, [
+       $validator = Validator::make($request->all(), 
+       [
             'employee_email' => 'required|min:4',
             'employee_password' => 'required|min:4'
         ],
@@ -41,6 +42,13 @@ class AuthController extends Controller
             'employee_password.required' => 'Harap masukkan password'
         ]);
 
+        if($validator->fails()) {
+            return response()->json([
+                'data' => new \stdClass(),
+                'message'=> implode('',$validator->getMessageBag()->all()),
+                'success'=> false
+            ]);
+        }
          
         $credentials = request([
             
@@ -54,6 +62,7 @@ class AuthController extends Controller
                  //do something
                  if(Hash::check($request->employee_password, $EmployeeModel->employee_password)) {
                      //do something
+                if($EmployeeModel){
                     return response()->json([
                         'data' => [
                             'employee_id' => $EmployeeModel->employee_id,
@@ -67,21 +76,17 @@ class AuthController extends Controller
                         'success' => true
                     ]);
                   }
-             } 
-             
+                
                 return response()->json([
-                    'message' => 'Data Tidak Valid',
+                    'message' => 'Employee Service Membership Gagal Mendapatkan Data',
                     'success' => false,
                     'data' => new \stdClass()
                 ]);
-             
+            }
         
-
-       
+        }
     }
-        
     
-
     /**
      * Get the authenticated User.
      *
@@ -132,59 +137,3 @@ class AuthController extends Controller
     }
 }
 
-// class AuthController extends Controller
-// {
-//     public function login (Request $request)
-//     {
-        
-//     } 
-       
-// }
-
-
-
-
-
-
-
-
-  //     $EmployeeModel = EmployeeModel::where('employee_email' ,$employee_email)->first();
-    //     if(!$EmployeeModel){
-    //         return response()->json(['message' => 'Gagal Masuk'],401);
-    //     }
-    //     $isValidPassword = Hash::check($employee_password, $EmployeeModel->password);
-    //     if(!$isValidPassword) {
-    //         return response()->json(['message' => 'Gagal Masuk'],401);
-    //     }
-        
-    //     $secret_key = bin2hex(random_bytes(40));
-    //     $EmployeeModel->update([
-    //         'secret_key' => $secret_key
-    //     ]);
-
-    //   return response()->json($EmployeeModel);
-// $EmployeeModel = EmployeeModel::where("employee_email", $request->email)->first();
-        
-        // // // $EmployeeModel = EmployeeModel::find($employee_id);
-        // // $EmployeeModel->employee_email = $request->get('employee_email');
-        // $EmployeeModel->employee_password = $request->get('employee_password');
-        // if (Hash::check($request->input('employee_password', $EmployeeModel->employee_password))) {
-        //     $apikey = base64_encode(str_random(40));
-        //     EmployeeModel::where('employee_email', $request->input('employee_email'))->update(['api_key'=> "$apikey"]);
-        //     return response()->json([
-        //         'status'=> 'succes',
-        //         'api_key'=> $apikey
-        //     ]);  
-        // }
-        // else {
-        //     return response()->json(['status'=> 'fail'],401);
-        // }
-
-        // if($EmployeeModel){
-        //     Auth::login($EmployeeModel);
-        // }
-
-        
-        
-
-    // }

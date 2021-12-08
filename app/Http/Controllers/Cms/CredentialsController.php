@@ -24,7 +24,7 @@ class CredentialsController extends Controller
         } else {
             return response()->json([
                 'data' => '' ,
-                'message' => 'Tidak Berhasil',
+                'message' => 'Credentials Service Membership Gagal Mendapatkan Data',
                 'success' => false
             ]);
         }
@@ -41,7 +41,7 @@ class CredentialsController extends Controller
         } else {
             return response()->json([
                 'data' => '' ,
-                'message' => 'Tidak Berhasil',
+                'message' => 'Credentials Service Membership Gagal Mendapatkan Data',
                 'success' => false
             ]);
         }
@@ -69,7 +69,7 @@ class CredentialsController extends Controller
         } else {
             return response()->json([
                 'data' => '' ,
-                'message' => 'Tidak Berhasil',
+                'message' => 'Credentials Service Membership Gagal Mendapatkan Data',
                 'success' => false
             ]);
         }
@@ -94,7 +94,7 @@ class CredentialsController extends Controller
         } else {
             return response()->json([
                 'data' => '' ,
-                'message' => 'Tidak Berhasil',
+                'message' => 'Credentials Service Membership Gagal Mendapatkan Data',
                 'success' => false
             ]);
         }
@@ -113,7 +113,7 @@ class CredentialsController extends Controller
         } else {
             return response()->json([
                 'data' => '' ,
-                'message' => 'Tidak Berhasil',
+                'message' => 'Credentials Service Membership Gagal Mendapatkan Data',
                 'success' => false
             ]);
         }
