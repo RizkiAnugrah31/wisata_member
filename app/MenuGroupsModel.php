@@ -16,6 +16,8 @@ class MenuGroupsModel extends Model {
 //    Nama Primary Key
     protected $primaryKey = "menu_group_id";
 
+    protected $keyType = 'string';
+    
 //    Field yang bisa di isi
     protected $fillable = [
         "menu_id",

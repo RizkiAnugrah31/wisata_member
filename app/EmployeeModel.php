@@ -19,6 +19,8 @@ class EmployeeModel extends Model {
 //    Nama Primary Key
     protected $primaryKey = "employee_id";
 
+    protected $keyType = 'string';
+
 //    Field yang bisa di isi
     protected $fillable = [
         "user_roles_id",
@@ -42,6 +44,4 @@ class EmployeeModel extends Model {
         'updated_at',
         'deleted_at'
     ];
-    
-
 }
