@@ -7,117 +7,202 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Ramsey\Uuid\Uuid;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\ValidationException;
+use Validator;
 
 class EmployeeController extends Controller
 {
     public function index(Request $request)
     {
-        // dd($request->all());
-        //        Get all data Menu from database
-        $data = EmployeeModel::paginate($request->limit);
-        if ($data) {
+        $datas = EmployeeModel::where('deleted_at', null);
+        $paginate = $datas->paginate(\request()->get('limit'));
+
+        return \response()->json([
+            'data' => [
+                'currentPage' => $paginate->currentPage(),
+                'from' => $paginate->firstItem() ?? 0,
+                'lastPage' => $paginate->lastPage(),
+                'perPage' => (int)$paginate->perPage(),
+                'to' => $paginate->lastItem() ?? 0,
+                'total' => $paginate->total(),
+                'items' => $paginate->items() ?? [],
+            ],
+            'message' => 'ok',
+            'success' => true
+        ]);
+    }
+
+    public function detail($id)
+    {
+        $selectData = EmployeeModel::where('employee_id', $id);
+
+        if (!$selectData->exists()) {
             return response()->json([
-                'data' => $data,
-                'message' => 'Berhasil',
-                'success' => true
-            ]);
-        } else {
-            return response()->json([
-                'data' => '' ,
-                'message' => 'Employee Service Membership Gagal Mendapatkan Data',
+                'data' => new \stdClass(),
+                'message' => "ID tidak ditemukan",
                 'success' => false
             ]);
         }
+
+        return response()->json([
+            'data' => $selectData->first(),
+            'message' => "ok",
+            'success' => true
+        ]);
     }
-
-    public function detail($id){
-        $data = EmployeeModel::find($id);
-        if ($data) {
-            return response()->json([
-                'data' => $data,
-                'message' => 'Berhasil',
-                'success' => true
-            ]);
-        } else {
-            return response()->json([
-                'data' => '' ,
-                'message' => 'Employee Service Membership Gagal Mendapatkan Data',
-                'success' => false
-            ]);
-        }
-    }
-
-
 
     public function store(Request $request)
     {
-//        Get All data from request
-        // dd($request->all());
-        $data = $request->all();
-        $uuid1 = Uuid::uuid1();
-        $data["employee_id"] = $uuid1->toString();
-        $data["employee_password"] = Hash::make($data["employee_password"]);
-//        query create
-        $create = EmployeeModel::insert($data);
-//        check if create success or not
-        
-        if ($create) {
+        //belom selesai
+        $inputUser = $request->all();
+
+        $validator = Validator::make($inputUser, [
+            'employee_id' => 'required',
+            'user_roles_id' => 'required',
+            'employee_firstname' => 'required',
+            'employee_middlename' => 'required',
+            'employee_lastname' => 'required',
+            'employee_username' => 'required',
+            'employee_password' => 'required', 
+            'employee_email' => 'required',
+            'employee_status' => 'required',
+            'employee_image' => 'required',
+            'created_by' => 'required',
+            'update_by' => 'required'
+        ],
+        [
+            'employee_id.required' => 'Masukan Employee Id',
+            'user_roles_id.required' => 'Masukan Id',
+            'employee_firstname.required' => 'Masukan Firstname',
+            'employee_middlename.required' => 'Masukan Secondname',
+            'employee_lastname.required' => 'Masukan Lastname',
+            'employee_username.required' => 'Masukan Username',
+            'employee_password.required' => 'Masukan Password',
+            'employee_status.required' => 'Masukan Status',
+            'employee_email.required' => 'Masukan Email',          
+            'employee_image.required' => 'Masukan Image ',
+            'created_by.required' => 'Created Oleh',
+            'update_by.required' => 'Update Oleh'
+        ]
+    );
+
+        if ($validator->fails()) {
             return response()->json([
-                'data' => $create,
-                'message' => 'Berhasil',
-                'success' => true
-            ]);
-        } else {
-            return response()->json([
-                'data' => '' ,
-                'message' => 'Employee Service Membership Gagal Mendapatkan Data',
+                'data' => new \stdClass(),
+                'message' => implode(' \n ', $validator->getMessageBag()->all()),
                 'success' => false
             ]);
         }
-        // return $data;
+
+        $inputUser['employee_id'] = Uuid::uuid1();
+        $inputUser['employee_password'] = Hash::make($inputUser['employee_password']);
+        $savingData = EmployeeModel::insert($inputUser);
+
+        if ($savingData) {
+            return response()->json([
+                'data' => $inputUser,
+                'message' => "ok",
+                'success' => true
+            ]);
+        }
+
+        return response()->json([
+            'data' => new \stdClass(),
+            'message' => "Terjadi masalah pada saat menyimpan data coba beberapa saat lagi",
+            'success' => false
+        ]);
         
     }
+
     public function update(Request $request, $id)
     {
-//        Get All data from request
-        $data = $request->all();
-        // dd($id);
-//        query update
-        $update = EmployeeModel::where('employee_id',$id)->update($data);
-//        check if update success or not
-        // dd($update);
-        if ($update) {
+        //belom selesai
+        $inputUser = $request->all();
+
+        $validator = Validator::make($inputUser, [
+            'employee_id' => 'required',
+            'user_roles_id' => 'required',
+            'employee_firstname' => 'required',
+            'employee_middlename' => 'required',
+            'employee_lastname' => 'required',
+            'employee_username' => 'required',
+            'employee_password' => 'required', 
+            'employee_email' => 'required',
+            'employee_status' => 'required',
+            'employee_image' => 'required',
+            'created_by' => 'required',
+            'update_by' => 'required'
+        ],
+        [
+            'employee_id.required' => 'Masukan Employee Id',
+            'user_roles_id.required' => 'Masukan Id',
+            'employee_firstname.required' => 'Masukan Firstname',
+            'employee_middlename.required' => 'Masukan Secondname',
+            'employee_lastname.required' => 'Masukan Lastname',
+            'employee_username.required' => 'Masukan Username',
+            'employee_password.required' => 'Masukan Password',
+            'employee_status.required' => 'Masukan Status',
+            'employee_email.required' => 'Masukan Email',          
+            'employee_image.required' => 'Masukan Image ',
+            'created_by.required' => 'Created Oleh',
+            'update_by.required' => 'Update Oleh'
+        ]
+    );
+
+        if ($validator->fails()) {
             return response()->json([
-                'data' => $update,
-                'message' => 'Berhasil',
-                'success' => true
-            ]);
-        } else {
-            return response()->json([
-                'data' => '' ,
-                'message' => 'Employee Service Membership Gagal Mendapatkan Data',
+                'data' => new \stdClass(),
+                'message' => implode(' \n ', $validator->getMessageBag()->all()),
                 'success' => false
             ]);
         }
+
+        $selectData = EmployeeModel::where('employee_id', $id);
+
+        if (!$selectData->exists()) {
+            return response()->json([
+                'data' => new \stdClass(),
+                'message' => "ID tidak ditemukan",
+                'success' => false
+            ]);
+        }
+
+        $updateingData = $selectData->update($inputUser);
+
+        if ($updateingData) {
+            return response()->json([
+                'data' => $selectData->first(),
+                'message' => "ok",
+                'success' => true
+            ]);
+        }
+
+        return response()->json([
+            'data' => new \stdClass(),
+            'message' => "Terjadi masalah pada saat menyimpan data coba beberapa saat lagi",
+            'success' => false
+        ]);
     }
+
     public function delete($id)
     {
-//        query update
-        $delete = EmployeeModel::find($id)->delete();
-//        check if delete success or not
-        if ($delete) {
+        $selectData = EmployeeModel::where('employee_id', $id);
+
+        if (!$selectData->exists()) {
             return response()->json([
-                'data' => $delete,
-                'message' => 'Berhasil',
-                'success' => true
-            ]);
-        } else {
-            return response()->json([
-                'data' => '' ,
-                'message' => 'Employee Service Membership Gagal Mendapatkan Data',
+                'data' => new \stdClass(),
+                'message' => "ID tidak ditemukan",
                 'success' => false
             ]);
         }
+        $data = $selectData->first();
+        $deletingData = $data->delete();
+
+        return response()->json([
+            'data' => $data,
+            'message' => "ok",
+            'success' => true
+        ]);
     }
 
 }

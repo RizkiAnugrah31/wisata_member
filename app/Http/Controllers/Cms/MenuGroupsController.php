@@ -6,114 +6,173 @@ use App\MenuGroupsModel;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Ramsey\Uuid\Uuid;
+use Illuminate\Support\Facades\Validator;
+
 
 class MenuGroupsController extends Controller
 {
     public function index(Request $request)
     {
-        // dd($request->all());
-        //        Get all data Menu from database
-        $data = MenuGroupsModel::paginate($request->limit);
-        if ($data) {
-            return response()->json([
-                'data' => $data,
-                'message' => 'Berhasil',
-                'success' => true
-            ]);
-        } else {
-            return response()->json([
-                'data' => '' ,
-                'message' => 'MenuGroups Service Membership Gagal Mendapatkan Data',
-                'success' => false
-            ]);
-        }
+        $datas = MenuGroupsModel::where('deleted_at', null);
+        $paginate = $datas->paginate(\request()->get('limit'));
+
+        return \response()->json([
+            'data' => [
+                'currentPage' => $paginate->currentPage(),
+                'from' => $paginate->firstItem() ?? 0,
+                'lastPage' => $paginate->lastPage(),
+                'perPage' => (int)$paginate->perPage(),
+                'to' => $paginate->lastItem() ?? 0,
+                'total' => $paginate->total(),
+                'items' => $paginate->items() ?? [],
+            ],
+            'message' => 'ok',
+            'success' => true
+        ]);
     }
 
-    public function detail($id){
-        $data = MenuGroupsModel::find($id);
-        if ($data) {
+    public function detail($id)
+    {
+        $selectData = MenuGroupsModel::where('menu_group_id', $id);
+
+        if (!$selectData->exists()) {
             return response()->json([
-                'data' => $data,
-                'message' => 'Berhasil',
-                'success' => true
-            ]);
-        } else {
-            return response()->json([
-                'data' => '' ,
-                'message' => 'MenuGroups Service Membership Gagal Mendapatkan Data',
+                'data' => new \stdClass(),
+                'message' => "ID tidak ditemukan",
                 'success' => false
             ]);
         }
+
+        return response()->json([
+            'data' => $selectData->first(),
+            'message' => "ok",
+            'success' => true
+        ]);
     }
 
     public function store(Request $request)
     {
-//        Get All data from request
-        // dd($request->all());
-        $data = $request->all();
-        $uuid1 = Uuid::uuid1();
-        $data["menu_group_id"] = $uuid1->toString();
-//        query create
-        $create = MenuGroupsModel::insert($data);
-//        check if create success or not
-        
-        if ($create) {
+        $inputUser = $request->all();
+
+        $validator = Validator::make($inputUser, [
+            'menu_group_id' => 'required',
+            'menu_id' => 'required',
+            'name' => 'required',
+            'icon' => 'required',
+            'sequence' => 'icon'
+        ],
+        [
+            'menu_group_id' => 'Masukukan ID',
+            'menu_id' => 'Masukan Id',
+            'name.required' => 'Masukan Nama',
+            'icon.required' => 'Masukan Icon',
+            'sequence.required' => 'Masukan sequence'
+
+        ]
+    );
+
+    dd($validator->fails());
+
+    if ($validator->fails()) {
+        return response()->json([
+            'data' => new \stdClass(),
+            'message' => implode(' \n ', $validator->getMessageBag()->all()),
+            'success' => false
+        ]);
+    }
+
+        $inputUser['menu_group_id'] = Uuid::uuid1();
+        $savingData = MenuGroupsModel::insert($inputUser);
+
+        if ($savingData) {
             return response()->json([
-                'data' => $create,
-                'message' => 'Berhasil',
+                'data' => $inputUser,
+                'message' => "ok",
                 'success' => true
             ]);
-        } else {
-            return response()->json([
-                'data' => '' ,
-                'message' => 'MenuGroups Service Membership Gagal Mendapatkan Data',
-                'success' => false
-            ]);
         }
-        // return $data;
+
+        return response()->json([
+            'data' => new \stdClass(),
+            'message' => "Terjadi masalah pada saat menyimpan data coba beberapa saat lagi",
+            'success' => false
+        ]);
         
     }
     public function update(Request $request, $id)
     {
-//        Get All data from request
-        $data = $request->all();
-        // dd($id);
-//        query update
-        $update = MenuGroupsModel::where('menu_group_id',$id)->update($data);
-//        check if update success or not
-        // dd($update);
-        if ($update) {
+       $inputUser = $request->all();
+
+        $validator = Validator::make($inputUser, [
+            'menu_group_id' => 'required',
+            'menu_id' => 'required',
+            'name' => 'required',
+            'icon' => 'required',
+            'sequence' => 'icon'
+        ],
+        [
+            'menu_group_id' => 'Masukukan ID',
+            'menu_id' => 'Masukan Id',
+            'name.required' => 'Masukan Nama',
+            'icon.required' => 'Masukan Icon',
+            'sequence.required' => 'Masukan sequence'
+
+        ]
+    );
+
+        if ($validator->fails()) {
             return response()->json([
-                'data' => $update,
-                'message' => 'Berhasil',
-                'success' => true
-            ]);
-        } else {
-            return response()->json([
-                'data' => '' ,
-                'message' => 'MenuGroups Service Membership Gagal Mendapatkan Data',
+                'data' => new \stdClass(),
+                'message' => implode(' \n ', $validator->getMessageBag()->all()),
                 'success' => false
             ]);
         }
+
+        $selectData = MenuGroupsModel::where('menu_group_id', $id);
+
+        if (!$selectData->exists()) {
+            return response()->json([
+                'data' => new \stdClass(),
+                'message' => "ID tidak ditemukan",
+                'success' => false
+            ]);
+        }
+
+        $updateingData = $selectData->update($inputUser);
+
+        if ($updateingData) {
+            return response()->json([
+                'data' => $selectData->first(),
+                'message' => "ok",
+                'success' => true
+            ]);
+        }
+
+        return response()->json([
+            'data' => new \stdClass(),
+            'message' => "Terjadi masalah pada saat menyimpan data coba beberapa saat lagi",
+            'success' => false
+        ]);
     }
     public function delete($id)
     {
-//        query update
-        $delete = MenuGroupsModel::find($id)->delete();
-//        check if delete success or not
-        if ($delete) {
+        $selectData = MenuGroupsModel::where('menu_group_id', $id);
+
+        if (!$selectData->exists()) {
             return response()->json([
-                'data' => $delete,
-                'message' => 'Berhasil',
-                'success' => true
-            ]);
-        } else {
-            return response()->json([
-                'data' => '' ,
-                'message' => 'MenuGroups Service Membership Gagal Mendapatkan Data',
+                'data' => new \stdClass(),
+                'message' => "ID tidak ditemukan",
                 'success' => false
             ]);
         }
+        $data = $selectData->first();
+        $deletingData = $data->delete();
+
+        return response()->json([
+            'data' => $data,
+            'message' => "ok",
+            'success' => true
+        ]);
     }
 
 }
