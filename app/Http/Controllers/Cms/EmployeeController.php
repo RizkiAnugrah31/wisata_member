@@ -117,38 +117,22 @@ class EmployeeController extends Controller
     public function update(Request $request, $id)
     {
         //belom selesai
-        $inputUser = $request->all();
+        $inputUser = $request->only(
+            'employee_username', 'employee_email','employee_password'
+        );
 
         $validator = Validator::make($inputUser, [
-            'employee_id' => 'required',
-            'user_roles_id' => 'required',
-            'employee_firstname' => 'required',
-            'employee_middlename' => 'required',
-            'employee_lastname' => 'required',
             'employee_username' => 'required',
             'employee_password' => 'required', 
-            'employee_email' => 'required',
-            'employee_status' => 'required',
-            'employee_image' => 'required',
-            'created_by' => 'required',
-            'update_by' => 'required'
+            'employee_email' => 'required'
         ],
         [
-            'employee_id.required' => 'Masukan Employee Id',
-            'user_roles_id.required' => 'Masukan Id',
-            'employee_firstname.required' => 'Masukan Firstname',
-            'employee_middlename.required' => 'Masukan Secondname',
-            'employee_lastname.required' => 'Masukan Lastname',
             'employee_username.required' => 'Masukan Username',
             'employee_password.required' => 'Masukan Password',
-            'employee_status.required' => 'Masukan Status',
-            'employee_email.required' => 'Masukan Email',          
-            'employee_image.required' => 'Masukan Image ',
-            'created_by.required' => 'Created Oleh',
-            'update_by.required' => 'Update Oleh'
+            'employee_email.required' => 'Masukan Email'
         ]
     );
-
+        // dd($validator->fails());
         if ($validator->fails()) {
             return response()->json([
                 'data' => new \stdClass(),
@@ -157,6 +141,7 @@ class EmployeeController extends Controller
             ]);
         }
 
+        $inputUser['employee_password'] = Hash::make($inputUser['employee_password']);
         $selectData = EmployeeModel::where('employee_id', $id);
 
         if (!$selectData->exists()) {
