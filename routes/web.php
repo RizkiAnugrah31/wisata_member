@@ -63,3 +63,7 @@ $router->post('/UserPrivileges/store','Cms\UserPrivilegesController@store');
 $router->put('/UserPrivileges/update/{id}','Cms\UserPrivilegesController@update');
 $router->delete('/UserPrivileges/delete/{id}','Cms\UserPrivilegesController@delete');
 
+$router->group(['prefix' => 'Tour'], function () use ($router) {
+    $router->get('fetch', 'Cms\TourController@index');
+});
+
